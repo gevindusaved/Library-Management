@@ -1,5 +1,6 @@
 package com.sasianet.Library_Management.Member;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api")
 public class MemberController {

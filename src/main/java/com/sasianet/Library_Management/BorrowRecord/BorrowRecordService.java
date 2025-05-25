@@ -30,4 +30,8 @@ public class BorrowRecordService {
     public List<BorrowRecords> getBorrowRecordsByMemberId(int memberId) {
         return borrowRecordRepository.findAllByMemberId(memberId);
     }
+
+    public List<BorrowRecords> getBorrowRecordsByBookId(int bookId) {
+        return borrowRecordRepository.findAllByBookId(bookId);
+    }
 }

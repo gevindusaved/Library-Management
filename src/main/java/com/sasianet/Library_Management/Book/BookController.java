@@ -1,5 +1,6 @@
 package com.sasianet.Library_Management.Book;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api")
 @RestController
 public class BookController {
@@ -27,27 +32,46 @@ public class BookController {
         return bookService.getBooks();
     }
 
-    @GetMapping("/books/id/{bookId}")
-    public Books getBook(@PathVariable int bookId) {
-        return bookService.getBookById(bookId);
-    }
-    
-    @GetMapping("/books/title/{title}")
-    public List<Books> getTitle(@PathVariable String title) {
-        return bookService.getBooksByTitle(title);
-    }    
+    // @GetMapping("/books/id/{bookId}")
+    // public Books getBook(@PathVariable int bookId) {
+    // return bookService.getBookById(bookId);
+    // }
 
-    @GetMapping("/books/author/{author}")
-    public List<Books> getAuthor(@PathVariable String author) {
-        return bookService.getBooksByAuthor(author);
-    }    
-    
+    // @GetMapping("/books/title/{title}")
+    // public List<Books> getTitle(@PathVariable String title) {
+    // return bookService.getBooksByTitle(title);
+    // }
+
+    // @GetMapping("/books/author/{author}")
+    // public List<Books> getAuthor(@PathVariable String author) {
+    // return bookService.getBooksByAuthor(author);
+    // }
+
+    @GetMapping("/books/search/{query}")
+    public List<Books> searchBooks(@PathVariable String query) {
+        try {
+            int bookId = Integer.parseInt(query);
+            Books book = bookService.getBookById(bookId);
+            return book != null ? List.of(book) : List.of();
+        } catch (NumberFormatException e) {
+            // Try search by title or author
+            List<Books> byTitle = bookService.getBooksByTitle(query);
+            List<Books> byAuthor = bookService.getBooksByAuthor(query);
+
+            // Merge and avoid duplicates if needed
+            Set<Books> results = new HashSet<>();
+            results.addAll(byTitle);
+            results.addAll(byAuthor);
+            return new ArrayList<>(results);
+        }
+    }
+
     @PostMapping("/books")
     public void addBook(@RequestBody Books book) {
         bookService.addBook(book);
     }
 
-    @PutMapping("/books")
+    @PutMapping("/books/{bookId}")
     public void updateBook(@RequestBody Books book) {
         bookService.updateBook(book);
     }
