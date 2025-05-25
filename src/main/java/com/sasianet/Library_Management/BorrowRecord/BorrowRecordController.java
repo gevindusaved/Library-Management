@@ -1,6 +1,7 @@
 package com.sasianet.Library_Management.BorrowRecord;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sasianet.Library_Management.Book.BookRepository;
 import com.sasianet.Library_Management.Book.Books;
 
 import java.util.ArrayList;
@@ -23,11 +25,13 @@ public class BorrowRecordController {
 
     private final BorrowRecordService borrowRecordService;
     private final BorrowRecordRepository borrowRecordRepository;
+    private final BookRepository bookRepository;
 
     public BorrowRecordController(BorrowRecordService borrowRecordService,
-            BorrowRecordRepository borrowRecordRepository) {
+            BorrowRecordRepository borrowRecordRepository, BookRepository bookRepository) {
         this.borrowRecordRepository = borrowRecordRepository;
         this.borrowRecordService = borrowRecordService;
+        this.bookRepository = bookRepository;
     }
 
     @GetMapping("/brecords")
@@ -37,19 +41,7 @@ public class BorrowRecordController {
 
     @PostMapping("/brecords")
     public void addBorrowRecord(@RequestBody BorrowRecords borrowRecord) {
-        int bookId = borrowRecord.getBookId();
-
-        List<BorrowRecords> borrowRecords = borrowRecordRepository.findAll();
-        boolean isCurrentlyBorrowed = borrowRecords.stream()
-                .anyMatch(record -> record.getBookId() == bookId && record.getReturnDate() == null);
-
-        System.out.println("Book currently borrowed: " + isCurrentlyBorrowed);
-
-        if (!isCurrentlyBorrowed) {
-            borrowRecordService.addBorrowRecord(borrowRecord);
-        } else {
-            throw new IllegalStateException("Cannot borrow book: it has not been returned yet.");
-        }
+        borrowRecordService.addBorrowRecord(borrowRecord);
     }
 
     @GetMapping("/brecords/search/{query}")
@@ -68,7 +60,6 @@ public class BorrowRecordController {
 
             return new ArrayList<>(results);
         } catch (NumberFormatException e) {
-            // Not a number — return empty or error
             return new ArrayList<>();
         }
     }
@@ -76,5 +67,10 @@ public class BorrowRecordController {
     @PutMapping("/brecords")
     public void updateBorrowRecord(@RequestBody BorrowRecords borrowRecord) {
         borrowRecordService.updateBorrowRecord(borrowRecord);
+    }
+
+    @DeleteMapping("/brecords/{bRecordsId}")
+    public void deleteBorrowRecord(@PathVariable int bRecordsId) {
+        borrowRecordService.deleteBorrowRecord(bRecordsId);
     }
 }
