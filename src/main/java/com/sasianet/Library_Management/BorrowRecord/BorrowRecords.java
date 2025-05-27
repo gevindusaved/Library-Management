@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -19,12 +20,12 @@ import java.util.Date;
 public class BorrowRecords {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bRecordsId;
-    private int memberId;
-    private int bookId;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate borrowDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date returnDate;
+    private Integer bRecordsId;
+    private Integer memberId;
+    private Integer bookId;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime borrowDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime returnDate;
 
 }

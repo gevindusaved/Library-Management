@@ -44,33 +44,23 @@ public class BorrowRecordController {
         borrowRecordService.addBorrowRecord(borrowRecord);
     }
 
-    @GetMapping("/brecords/search/{query}")
-    public List<BorrowRecords> searchBorrowRecords(@PathVariable String query) {
-        try {
-            int id = Integer.parseInt(query);
+    @GetMapping("/brecords/book/{bookId}")
+    public List<BorrowRecords> getBorrowRecordsByBook(@PathVariable Integer bookId) {
+        return borrowRecordService.getBorrowRecordsByBookId(bookId);
+    }
 
-            // Try both as memberId and bookId
-            List<BorrowRecords> byMemberId = borrowRecordService.getBorrowRecordsByMemberId(id);
-            List<BorrowRecords> byBookId = borrowRecordService.getBorrowRecordsByBookId(id);
-
-            // Merge and remove duplicates
-            Set<BorrowRecords> results = new HashSet<>();
-            results.addAll(byMemberId);
-            results.addAll(byBookId);
-
-            return new ArrayList<>(results);
-        } catch (NumberFormatException e) {
-            return new ArrayList<>();
-        }
+    @GetMapping("/brecords/member/{memberId}")
+    public List<BorrowRecords> getBorrowRecordsByMember(@PathVariable Integer memberId) {
+        return borrowRecordService.getBorrowRecordsByMemberId(memberId);
     }
 
     @PutMapping("/brecords")
-    public void updateBorrowRecord(@RequestBody BorrowRecords borrowRecord) {
-        borrowRecordService.updateBorrowRecord(borrowRecord);
+    public void updateBorrowRecord(@RequestBody BorrowRecords borrowRecords) {
+        borrowRecordService.updateBorrowRecord(borrowRecords);
     }
 
     @DeleteMapping("/brecords/{bRecordsId}")
-    public void deleteBorrowRecord(@PathVariable int bRecordsId) {
+    public void deleteBorrowRecord(@PathVariable Integer bRecordsId) {
         borrowRecordService.deleteBorrowRecord(bRecordsId);
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BorrowRecordRepository extends JpaRepository<BorrowRecords, Integer> {
-    Optional<BorrowRecords> findById(int bRecordsId);
-    List<BorrowRecords> findAllByMemberId(int memberId);
-    List<BorrowRecords> findAllByBookId(int bookId);
+    List<BorrowRecords> findAllByMemberId(Integer memberId);
+    List<BorrowRecords> findAllByBookId(Integer bookId);
 }

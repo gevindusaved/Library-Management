@@ -49,21 +49,7 @@ public class BookController {
 
     @GetMapping("/books/search/{query}")
     public List<Books> searchBooks(@PathVariable String query) {
-        try {
-            int bookId = Integer.parseInt(query);
-            Books book = bookService.getBookById(bookId);
-            return book != null ? List.of(book) : List.of();
-        } catch (NumberFormatException e) {
-            // Try search by title or author
-            List<Books> byTitle = bookService.getBooksByTitle(query);
-            List<Books> byAuthor = bookService.getBooksByAuthor(query);
-
-            // Merge and avoid duplicates if needed
-            Set<Books> results = new HashSet<>();
-            results.addAll(byTitle);
-            results.addAll(byAuthor);
-            return new ArrayList<>(results);
-        }
+        return bookService.searchBooks(query);
     }
 
     @PostMapping("/books")
@@ -71,13 +57,13 @@ public class BookController {
         bookService.addBook(book);
     }
 
-    @PutMapping("/books/{bookId}")
+    @PutMapping("/books")
     public void updateBook(@RequestBody Books book) {
         bookService.updateBook(book);
     }
 
     @DeleteMapping("/books/{bookId}")
-    public void deleteBook(@PathVariable int bookId) {
+    public void deleteBook(@PathVariable Integer bookId) {
         bookService.deleteBook(bookId);
     }
 }
