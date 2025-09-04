@@ -233,21 +233,3 @@ Access H2 console at: `http://localhost:8080/h2-console` — JDBC URL: `jdbc:h2:
 * Add OpenAPI/Swagger documentation.
 
 ---
-
-## Contacts / Contributors
-
-If you need clarifications about the assignment, contact:
-
-* Aravinda
-* Kasun
-* Lakshitha
-
----
-
-## License
-
-This project is provided as an educational/demo assignment. Add a license if you plan to publish or distribute it.
-
----
-
-*README generated for the provided project skeleton — update sections (endpoints, examples) to match the exact controller method names and request/response shapes in your code.*
