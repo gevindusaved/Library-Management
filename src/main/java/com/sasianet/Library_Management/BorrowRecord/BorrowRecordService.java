@@ -32,11 +32,13 @@ public class BorrowRecordService {
         Optional<Books> matchedBook = bookRepository.findAll().stream()
                 .filter(book -> book.getBookId().equals(borrowRecord.getBookId()))
                 .findFirst();
-        // Optional<BorrowRecords> matchedBorrowRecord = borrowRecordRepository.findAll().stream()
-        //         .filter(bookRecord -> bookRecord.getBookId().equals(borrowRecords.getBookId())
-        //                 && bookRecord.getReturnDate() == null
-        //                 && borrowRecords.getMemberId().equals(bookRecord.getMemberId()))
-        //         .findFirst();
+        // Optional<BorrowRecords> matchedBorrowRecord =
+        // borrowRecordRepository.findAll().stream()
+        // .filter(bookRecord ->
+        // bookRecord.getBookId().equals(borrowRecords.getBookId())
+        // && bookRecord.getReturnDate() == null
+        // && borrowRecords.getMemberId().equals(bookRecord.getMemberId()))
+        // .findFirst();
         if (matchedBook.isPresent()) {
             Books book = matchedBook.get();
             if (book.getAvailable() == true) {
